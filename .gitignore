@@ -23,6 +23,8 @@ ENV/
 .coverage
 htmlcov/
 .tox/
+# 根目录 PDF 是测试报告的临时打印产物（reports/test-report.html 才是入库版本）
+/test-report.html.pdf
 
 # ---------- 数据库（绝不提交：含用户会话数据，即使已脱敏） ----------
 data/*.db
