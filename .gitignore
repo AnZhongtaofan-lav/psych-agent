@@ -1,0 +1,91 @@
+# ============================================================
+# .gitignore —— AI 心理服务智能体
+# 安全原则：数据库（含脱敏数据也不应公开）、密钥、临时产物一律不提交
+# ============================================================
+
+# ---------- Python 运行时产物 ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# ---------- 虚拟环境 ----------
+.venv/
+venv/
+env/
+ENV/
+
+# ---------- 测试与缓存 ----------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ---------- 数据库（绝不提交：含用户会话数据，即使已脱敏） ----------
+data/*.db
+data/*.db-wal
+data/*.db-shm
+*.sqlite3
+
+# ---------- 用户媒体目录（防御性排除：照片/视频属于高敏感个人数据） ----------
+data/media/
+
+# ---------- 环境变量与密钥（红线：真实密钥只存本地） ----------
+.env
+.env.local
+*.pem
+*.key
+
+# ---------- IDE / 编辑器 ----------
+.vscode/
+.idea/
+# Trae IDE 工作目录（架构文档如需公开请移到 docs/ 后单独入库）
+.trae/
+*.swp
+*.swo
+
+# ---------- 操作系统产物 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- 日志 ----------
+*.log
+logs/
+
+# ---------- LVGL 模拟器：排除第三方库与构建产物（共约 185MB），保留自研 UI 源码与脚本 ----------
+# 第三方 LVGL 源码库（约 112MB）
+lvgl_sim/lvgl/
+# 板级构建目录
+lvgl_sim/build/
+# 模拟器构建目录（约 41MB）
+lvgl_sim/build_sim/
+# 板级目标文件
+lvgl_sim/build_board_obj/
+# FreeType 临时产物
+lvgl_sim/freetype_tmp/
+# （探测二进制规则见下方 lvgl_sim 根目录编译输出区）
+
+# ---------- 根目录冗余压缩包（二进制不应入库，需要时用打包脚本重新生成） ----------
+*.zip
+
+# ---------- 编译产物通用规则 ----------
+*.o
+*.obj
+*.s
+
+# ---------- lvgl_sim 根目录的编译输出二进制（保留同名 .c 源码） ----------
+lvgl_sim/gec6818_app*
+lvgl_sim/touch_probe
+# 探测工具编译二进制（同名 .c 才是源码；cam_probe 实际是文件而非目录）
+lvgl_sim/cam_probe
+lvgl_sim/cam_probe.stripped
+lvgl_sim/cam_scan
+lvgl_sim/cam_scan.stripped
+lvgl_sim/fb_lprobe
+lvgl_sim/fb_lprobe.stripped
+lvgl_sim/fb_probe
+lvgl_sim/fb_probe.stripped

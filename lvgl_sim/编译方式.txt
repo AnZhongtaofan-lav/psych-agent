@@ -1,0 +1,13 @@
+SDL模拟器编译方式:
+1.安装SDL2库  
+sudo apt-get  update  
+sudo apt-get install libsdl2-dev   
+
+2.直接使用make 编译  
+
+ARM编译方式:   
+1.安装交叉编译工具链    
+arm-linux-gcc   
+
+2.使用Make_arm 编译   
+make --file=Make_arm  

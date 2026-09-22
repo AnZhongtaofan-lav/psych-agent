@@ -1,0 +1,7 @@
+﻿=== LV_COLOR_DEPTH macro ===
+#define LV_DRAW_BUF_STRIDE_ALIGN 1
+#define LV_COLOR_DEPTH 32
+#define LV_DRAW_BUF_ALIGN 4
+=== sizeof via compile-time array trick ===
+00177000 00000003 B s_lc
+00000000 00177000 B s_need

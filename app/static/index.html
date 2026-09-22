@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 心理服务智能体</title>
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    AI 心理服务智能体
+    <div class="sub">情绪识别 · 风险分级 · 隐私脱敏 · 摄像头拍照录像 | 24 小时心理援助热线：<span id="hotline-header">12356</span></div>
+  </header>
+
+  <!-- 三页标签导航 -->
+  <nav class="tabs">
+    <div class="tab active" data-tab="chat">💬 对话</div>
+    <div class="tab" data-tab="camera">📷 摄像头</div>
+    <div class="tab" data-tab="gallery">🖼 相册</div>
+  </nav>
+
+  <!-- ============ 对话页 ============ -->
+  <div id="panel-chat" class="panel active">
+    <div id="chat-box"></div>
+    <div class="chat-status" id="chat-status">会话尚未创建，发送第一条消息时自动创建。</div>
+    <div class="chat-input">
+      <input id="chat-input" type="text" maxlength="2000" placeholder="输入你想说的话（Enter 发送）..." autocomplete="off">
+      <button id="chat-send" class="btn-send">发送</button>
+    </div>
+  </div>
+
+  <!-- ============ 摄像头页 ============ -->
+  <div id="panel-camera" class="panel">
+    <div class="camera-wrap">
+      <div class="camera-preview" id="camera-preview">
+        <div class="camera-placeholder">
+          点击下方按钮开启摄像头<br>
+          （首次使用需授权浏览器摄像头权限）
+        </div>
+        <span class="rec-indicator" id="rec-indicator">
+          <span class="rec-dot"></span>
+          <span>REC</span>
+        </span>
+      </div>
+      <div class="camera-controls">
+        <button class="camera-btn btn-photo" id="btn-photo" disabled>📸 拍照</button>
+        <button class="camera-btn btn-start-rec" id="btn-start-rec" disabled>🎬 开始录像</button>
+        <button class="camera-btn btn-stop-rec" id="btn-stop-rec">⏹ 停止录像</button>
+        <button class="camera-btn btn-gallery-go" id="btn-gallery-go">📂 查看相册</button>
+      </div>
+      <div class="camera-msg" id="camera-msg"></div>
+    </div>
+  </div>
+
+  <!-- ============ 相册页 ============ -->
+  <div id="panel-gallery" class="panel">
+    <div class="gallery-tabs">
+      <div class="gallery-tab active" data-gtype="photo">📷 照片</div>
+      <div class="gallery-tab" data-gtype="video">🎬 录像</div>
+    </div>
+    <div class="gallery-list" id="gallery-list">
+      <div class="gallery-empty">正在加载...</div>
+    </div>
+  </div>
+</div>
+
+<!-- 全屏预览弹窗 -->
+<div class="preview-modal" id="preview-modal">
+  <span class="close" id="preview-close">&times;</span>
+  <div id="preview-content"></div>
+</div>
+
+<!-- JS 模块（按依赖顺序加载） -->
+<script src="/assets/js/chat.js"></script>
+<script src="/assets/js/camera.js"></script>
+<script src="/assets/js/gallery.js"></script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

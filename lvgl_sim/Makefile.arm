@@ -1,0 +1,78 @@
+# ============================================================
+# Makefile for GEC6818 ARM board (arm-linux-gnueabi cross-compiler)
+# Target: gec6818_app (ELF ARM executable)
+# ============================================================
+
+CROSS   = /d/tools/gcc-7.5.0-nolibc/arm-linux-gnueabi/bin/arm-linux-gnueabi-
+CC      = $(CROSS)gcc
+AR      = $(CROSS)ar
+STRIP   = $(CROSS)strip
+
+CFLAGS  = -O2 -Wall -Wno-unused-function -std=c11 \
+          -DLV_CONF_PATH=\"$(CURDIR)/lv_conf.h\" \
+          -DLV_USE_LIBPNG=0 -DLV_USE_LIBJPEG_TURBO=0 \
+          -DLV_USE_FREETYPE=0 \
+          -DLV_USE_TINY_TTF=0 \
+          -DLV_USE_BMP=0 -DLV_USE_GIF=0 -DLV_USE_QRCODE=0 -DLV_USE_LODEPNG=0 \
+          -DLV_USE_THORVG=0 \
+          -DLV_USE_FS_POSIX=0 -DLV_USE_FS_STDIO=0 -DLV_USE_FS_WIN32=0 \
+          -DLV_USE_OS=0 \
+          -I$(CURDIR) -I$(CURDIR)/lvgl -I$(CURDIR)/lvgl/src
+
+LDFLAGS = -L$(CURDIR)/lvgl/libs -lm -lpthread -lrt
+LDFLAGS += -static-libgcc
+
+OUT      = gec6818_app
+
+# LVGL source files (all .c under lvgl/src, libs only minimal)
+LVGL_SRC  = $(shell find lvgl/src -name '*.c' \
+             ! -path '*/libs/freetype/*' \
+             ! -path '*/libs/libpng/*' \
+             ! -path '*/libs/thorvg/*' \
+             ! -path '*/libs/lv_fs_win32.c' \
+             ! -path '*/drivers/sdl/*' \
+             ! -path '*/drivers/x11/*' \
+             ! -path '*/drivers/libinput/*' \
+             ! -path '*/osal/lv_freertos*' \
+             ! -path '*/osal/lv_rtthread*' \
+             ! -path '*/osal/lv_cmsis*' \
+             ! -path '*/osal/lv_os_pthread*' \
+             ! -path '*/osal/lv_windows*' \
+             ! -path '*/misc/sysmon/*' \
+             ! -path '*/misc/monkey/*' \
+             ! -path '*/others/*' \
+             -type f)
+
+SRC  = main_board.c $(LVGL_SRC)
+OBJ  = $(SRC:.c=.o)
+
+.PHONY: all clean
+
+all: $(OUT)
+
+$(OUT): $(OBJ)
+	@echo "[LINK] $@"
+	$(CC) -o $@ $(OBJ) $(LDFLAGS)
+	$(STRIP) $@
+	@echo ""
+	@echo "=== BUILD SUCCESS ==="
+	@echo "Target: $(OUT)"
+	@ls -lh $@
+
+%.o: %.c
+	@echo "[CC] $<"
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJ) $(OUT)
+	rm -rf lvgl/src libs
+
+# ============================================================
+# How to run on board:
+#   1. Copy gec6818_app to USB drive / U盘
+#   2. On GEC6818 board (SecureCRT shell):
+#      mount /dev/sda1 /mnt/usb        # or /dev/mmcblk0p1 for SD
+#      cp /mnt/usb/gec6818_app /root/
+#      chmod +x /root/gec6818_app
+#      /root/gec6818_app
+# ============================================================
